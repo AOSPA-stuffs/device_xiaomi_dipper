@@ -263,6 +263,9 @@ on boot
 
     chmod 0666 /dev/input/event2
 
+    # QTI PowerHAL
+    chown system system /sys/kernel/hbtp/display_pwr
+
 # MSM specific files that need to be created on /data
 on post-fs-data
     mkdir /data/vendor/diag 2771 root log
