@@ -153,7 +153,7 @@ PRODUCT_SYSTEM_PROPERTIES += \
     persist.camera.sat.fallback.luxindex=405 \
     persist.camera.sat.fallback.lux.d=20 \
     camera.disable_zsl_mode=true \
-    vendor.camera.aux.packagelist=com.android.camera,org.codeaurora.snapcam
+    vendor.camera.aux.packagelist=com.android.camera,org.codeaurora.snapcam,co.aospa.sense
 
 # Configstore
 PRODUCT_PACKAGES += \
@@ -388,6 +388,10 @@ TARGET_USES_ST_NFC := true
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/nfc/libnfc-nci.conf:$(TARGET_COPY_OUT_PRODUCT)/etc/libnfc-nci.conf \
     $(LOCAL_PATH)/configs/nfc/libnfc-nxp.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nxp.conf
+
+# ParanoidSense
+PRODUCT_SYSTEM_PROPERTIES += \
+    ro.face.sense_service.camera_id=5
 
 # Permissions
 PRODUCT_COPY_FILES += \
