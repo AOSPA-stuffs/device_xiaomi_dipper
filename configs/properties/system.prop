@@ -11,6 +11,10 @@ ro.bluetooth.a2dp_offload.supported=true
 
 # Camera
 camera.disable_zsl_mode=true
+persist.camera.sat.fallback.dist=45
+persist.camera.sat.fallback.dist.d=5
+persist.camera.sat.fallback.luxindex=405
+persist.camera.sat.fallback.lux.d=20
 
 # Data modules
 persist.data.df.dev_name=rmnet_usb0
@@ -19,6 +23,7 @@ ro.vendor.use_data_netmgrd=true
 
 # Display post-processing
 ro.qualcomm.cabl=0
+ro.surface_flinger.has_wide_color_display=true
 ro.vendor.display.ad=1
 ro.vendor.display.ad.hdr_calib_data=/vendor/etc/hdr_config.cfg
 ro.vendor.display.ad.sdr_calib_data=/vendor/etc/sdr_config.cfg
