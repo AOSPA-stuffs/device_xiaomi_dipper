@@ -381,7 +381,16 @@ on post-fs-data
     mkdir /data/vendor/fm 0770 system system
     chmod 0770 /data/vendor/fm
 
+    # Create PERFD deamon related dirs
+    mkdir /data/vendor/perfd 0770 root system
+    chmod 2770 /data/vendor/perfd
+    rm /data/vendor/perfd/default_values
+
+    # Secure element
     mkdir /data/vendor/secure_element 0777 system system
+
+    # Create IOP deamon related dirs
+    mkdir /data/vendor/iop 0700 root system
 
     # Mark the copy complete flag to not completed
     write /data/vendor/radio/copy_complete 0
@@ -618,6 +627,7 @@ service vendor.audio-hal /vendor/bin/hw/android.hardware.audio.service
     override
     class hal
     user audioserver
+
     # media gid needed for /dev/fm (radio) and for /data/misc/media (tee)
     group audio camera drmrpc inet media mediadrm net_bt net_bt_admin net_bw_acct oem_2901 wakelock system
     capabilities BLOCK_SUSPEND SYS_NICE
@@ -633,6 +643,12 @@ service vendor.contexthub-hal-1-0 /vendor/bin/hw/android.hardware.contexthub@1.0
     user system
     group system
     disabled
+
+service vendor.power /vendor/bin/hw/android.hardware.power-service-qti
+    override
+    class hal
+    user system
+    group system input
 
 on property:vold.decrypt=trigger_restart_framework
     restart vendor.audio-hal
@@ -660,6 +676,9 @@ service vendor.per_proxy /vendor/bin/pm-proxy
     user system
     group system
     disabled
+
+on property:init.svc.vendor.per_mgr=running
+    start vendor.per_proxy
 
 on property:sys.shutdown.requested=*
     stop vendor.per_proxy

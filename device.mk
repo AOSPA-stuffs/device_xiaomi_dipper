@@ -1,18 +1,11 @@
 #
-# Copyright (C) 2018-2024 The LineageOS Project
+# Copyright (C) 2024 Paranoid Android
 #
 # SPDX-License-Identifier: Apache-2.0
 #
 
-# Add common definitions for Qualcomm
-$(call inherit-product, hardware/qcom-caf/common/common.mk)
-
-PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := true
-
 # Overlays
-DEVICE_PACKAGE_OVERLAYS += \
-    $(LOCAL_PATH)/overlay \
-    $(LOCAL_PATH)/overlay-lineage
+DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
 PRODUCT_PACKAGES += \
     NoCutoutOverlay \
@@ -37,6 +30,93 @@ PRODUCT_PACKAGES += \
     libvolumelistener \
     tinymix
 
+PRODUCT_SYSTEM_PROPERTIES += \
+    audio.deep_buffer.media=true \
+    audio.offload.min.duration.secs=30 \
+    audio.offload.video=true \
+    ro.af.client_heap_size_kbyte=7168 \
+    ro.config.vc_call_vol_steps=11
+
+PRODUCT_VENDOR_PROPERTIES += \
+    af.fast_track_multiplier=1 \
+    persist.vendor.audio.button_jack.profile=volume \
+    persist.vendor.audio.button_jack.switch=0 \
+    persist.vendor.audio.fluence.speaker=true \
+    persist.vendor.audio.fluence.voicecall=true \
+    persist.vendor.audio.fluence.voicecomm=true \
+    persist.vendor.audio.fluence.voicerec=false \
+    persist.vendor.audio.ras.enabled=false \
+    ro.vendor.audio.sdk.fluencetype=fluence \
+    ro.vendor.audio.sdk.ssr=false \
+    ro.vendor.audio.soundfx.usb=true \
+    vendor.audio.adm.buffering.ms=6 \
+    vendor.audio.dolby.ds2.enabled=false \
+    vendor.audio.dolby.ds2.hardbypass=false \
+    vendor.audio.enable.dp.for.voice=false \
+    vendor.audio.feature.a2dp_offload.enable=true \
+    vendor.audio.feature.afe_proxy.enable=true \
+    vendor.audio.feature.anc_headset.enable=true \
+    vendor.audio.feature.audiozoom.enable=false \
+    vendor.audio.feature.battery_listener.enable=false \
+    vendor.audio.feature.compr_cap.enable=false \
+    vendor.audio.feature.compress_in.enable=false \
+    vendor.audio.feature.compress_meta_data.enable=true \
+    vendor.audio.feature.compr_voip.enable=false \
+    vendor.audio.feature.concurrent_capture.enable=false \
+    vendor.audio.feature.custom_stereo.enable=true \
+    vendor.audio.feature.deepbuffer_as_primary.enable=false \
+    vendor.audio.feature.display_port.enable=true \
+    vendor.audio.feature.dsm_feedback.enable=false \
+    vendor.audio.feature.dynamic_ecns.enable=false \
+    vendor.audio.feature.ext_hw_plugin.enable=false \
+    vendor.audio.feature.external_dsp.enable=false \
+    vendor.audio.feature.external_speaker.enable=false \
+    vendor.audio.feature.external_speaker_tfa.enable=false \
+    vendor.audio.feature.fluence.enable=true \
+    vendor.audio.feature.fm.enable=true \
+    vendor.audio.feature.hdmi_edid.enable=true \
+    vendor.audio.feature.hdmi_passthrough.enable=true \
+    vendor.audio.feature.hfp.enable=true \
+    vendor.audio.feature.hifi_audio.enable=false \
+    vendor.audio.feature.hwdep_cal.enable=false \
+    vendor.audio.feature.incall_music.enable=false \
+    vendor.audio.feature.keep_alive.enable=false \
+    vendor.audio.feature.kpi_optimize.enable=true \
+    vendor.audio.feature.maxx_audio.enable=false \
+    vendor.audio.feature.multi_voice_session.enable=true \
+    vendor.audio.feature.ras.enable=true \
+    vendor.audio.feature.record_play_concurency.enable=false \
+    vendor.audio.feature.snd_mon.enable=true \
+    vendor.audio.feature.spkr_prot.enable=true \
+    vendor.audio.feature.src_trkn.enable=true \
+    vendor.audio.feature.ssrec.enable=false \
+    vendor.audio.feature.usb_offload.enable=true \
+    vendor.audio.feature.usb_offload_burst_mode.enable=false \
+    vendor.audio.feature.usb_offload_sidetone_volume.enable=false \
+    vendor.audio.feature.vbat.enable=true \
+    vendor.audio.feature.wsa.enable=false \
+    vendor.audio.flac.sw.decoder.24bit=true \
+    vendor.audio_hal.in_period_size=144 \
+    vendor.audio.hal.output.suspend.supported=false \
+    vendor.audio_hal.period_size=192 \
+    vendor.audio_hal.period_multiplier=3 \
+    vendor.audio.hw.aac.encoder=false \
+    vendor.audio.noisy.broadcast.delay=600 \
+    vendor.audio.offload.buffer.size.kb=32 \
+    vendor.audio.offload.gapless.enabled=true \
+    vendor.audio.offload.multiaac.enable=true \
+    vendor.audio.offload.multiple.enabled=true \
+    vendor.audio.offload.passthrough=false \
+    vendor.audio.offload.pstimeout.secs=3 \
+    vendor.audio.offload.track.enable=false \
+    vendor.audio.parser.ip.buffer.size=262144 \
+    vendor.voice.path.for.pcm.voip=false \
+    vendor.audio.safx.pbe.enabled=false \
+    vendor.audio.tunnel.encode=false \
+    vendor.audio.use.sw.alac.decoder=true \
+    vendor.audio.use.sw.ape.decoder=true \
+    ro.vendor.audio.soundfx.type=mi
+
 PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/audio/,$(TARGET_COPY_OUT_VENDOR)/etc)
 
@@ -45,26 +125,36 @@ PRODUCT_COPY_FILES += \
     frameworks/av/services/audiopolicy/config/r_submix_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/r_submix_audio_policy_configuration.xml \
     frameworks/av/services/audiopolicy/config/usb_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/usb_audio_policy_configuration.xml
 
-# Boot animation
-TARGET_SCREEN_HEIGHT := 2248
-TARGET_SCREEN_WIDTH := 1080
-
 # Bluetooth
-PRODUCT_PACKAGES += \
-    android.hardware.bluetooth@1.0.vendor \
-    android.hardware.bluetooth.audio-impl \
-    audio.bluetooth.default \
-    vendor.qti.hardware.bluetooth_audio@2.0.vendor \
-    vendor.qti.hardware.btconfigstore@1.0.vendor
+PRODUCT_SYSTEM_PROPERTIES += \
+    ro.bluetooth.a2dp_offload.supported=true
+
+PRODUCT_VENDOR_PROPERTIES += \
+    bluetooth.device.default_name=Xiaomi Mi 8 \
+    bluetooth.hardware.power.operating_voltage_mv=3300 \
+    bluetooth.profile.bas.client.enabled?=true \
+    persist.bluetooth.a2dp_offload.disabled=false \
+    persist.vendor.bt.aac_frm_ctl.enabled=true \
+    persist.vendor.qcom.bluetooth.a2dp_offload_cap=sbc-aptx-aptxtws-aptxhd-aac-ldac \
+    persist.vendor.qcom.bluetooth.aac_frm_ctl.enabled=true \
+    persist.vendor.qcom.bluetooth.enable.splita2dp=true \
+    persist.vendor.qcom.bluetooth.twsp_state.enabled=false \
+    vendor.qcom.bluetooth.soc=cherokee
 
 # Camera
 PRODUCT_PACKAGES += \
     android.hardware.camera.provider@2.4-impl:32 \
     android.hardware.camera.provider@2.4-service \
     libdng_sdk.vendor \
-    libgui_shim \
-    libpiex_shim \
     vendor.qti.hardware.camera.device@1.0.vendor
+
+PRODUCT_SYSTEM_PROPERTIES += \
+    persist.camera.sat.fallback.dist=45 \
+    persist.camera.sat.fallback.dist.d=5 \
+    persist.camera.sat.fallback.luxindex=405 \
+    persist.camera.sat.fallback.lux.d=20 \
+    camera.disable_zsl_mode=true \
+    vendor.camera.aux.packagelist=com.android.camera,org.codeaurora.snapcam
 
 # Configstore
 PRODUCT_PACKAGES += \
@@ -80,39 +170,40 @@ PRODUCT_COPY_FILES += \
     system/core/libprocessgroup/profiles/cgroups_28.json:$(TARGET_COPY_OUT_VENDOR)/etc/cgroups.json \
     system/core/libprocessgroup/profiles/task_profiles_28.json:$(TARGET_COPY_OUT_VENDOR)/etc/task_profiles.json
 
-# Dalvik
-$(call inherit-product, frameworks/native/build/phone-xhdpi-6144-dalvik-heap.mk)
+# Data modules
+PRODUCT_SYSTEM_PROPERTIES += \
+    persist.data.df.dev_name=rmnet_usb0
 
-# DebugFS
-PRODUCT_SET_DEBUGFS_RESTRICTIONS := true
+# Display
+PRODUCT_VENDOR_PROPERTIES += \
+    ro.surface_flinger.has_wide_color_display=true \
+    vendor.display.enable_default_color_mode=1
+
+PRODUCT_SYSTEM_PROPERTIES += \
+    ro.qualcomm.cabl=0 \
+    ro.vendor.display.ad=1 \
+    ro.vendor.display.ad.hdr_calib_data=/vendor/etc/hdr_config.cfg \
+    ro.vendor.display.ad.sdr_calib_data=/vendor/etc/sdr_config.cfg \
+    ro.vendor.display.sensortype=2
 
 # Device-specific settings
 PRODUCT_PACKAGES += \
     XiaomiParts
 
-# Display
-PRODUCT_PACKAGES += \
-    android.hardware.graphics.composer@2.3-service \
-    android.hardware.graphics.mapper@2.0-impl-qti-display \
-    android.hardware.memtrack@1.0-impl \
-    android.hardware.memtrack@1.0-service \
-    gralloc.sdm845 \
-    hwcomposer.sdm845 \
-    libdisplayconfig.qti \
-    libdisplayconfig.system.qti \
-    libqdMetaData \
-    libqdMetaData.system \
-    libtinyxml \
-    memtrack.sdm845 \
-    vendor.display.config@1.0.vendor \
-    vendor.display.config@2.0 \
-    vendor.qti.hardware.display.allocator@1.0-service \
-    vendor.qti.hardware.display.config-V5-ndk
+# DPM
+PRODUCT_SYSTEM_EXT_PROPERTIES += \
+    persist.vendor.dpm.loglevel=0
+
+PRODUCT_VENDOR_PROPERTIES += \
+    persist.vendor.dpmhalservice.enable=1
 
 # DRM
 PRODUCT_PACKAGES += \
     android.hardware.drm@1.3.vendor \
     android.hardware.drm-service.clearkey
+
+PRODUCT_VENDOR_PROPERTIES += \
+    drm.service.enabled=true
 
 # Fingerprint
 PRODUCT_PACKAGES += \
@@ -126,17 +217,37 @@ PRODUCT_PACKAGES += \
     libion.vendor
 
 # GNSS
-PRODUCT_PACKAGES += \
-    android.hardware.gnss@2.0.vendor
+PRODUCT_VENDOR_PROPERTIES += \
+    ro.hardware.flp=brcm
+    ro.hardware.gps=brcm
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/gps/gps_debug.conf:$(TARGET_COPY_OUT_SYSTEM)/etc/gps_debug.conf
 
-# fastbootd
-TARGET_BOARD_FASTBOOT_INFO_FILE := $(LOCAL_PATH)/configs/fastboot-info.txt
+# Graphics
+PRODUCT_SYSTEM_PROPERTIES += \
+    debug.sf.early_app_phase_offset_ns=500000 \
+    debug.sf.early_gl_app_phase_offset_ns=15000000 \
+    debug.sf.early_gl_phase_offset_ns=3000000 \
+    debug.sf.early_phase_offset_ns=500000 \
+    debug.sf.latch_unsignaled=1 \
+    ro.surface_flinger.force_hwc_copy_for_virtual_displays=true \
+    ro.surface_flinger.max_frame_buffer_acquired_buffers=2 \
+    ro.surface_flinger.max_virtual_display_dimension=4096 \
+    sdm.debug.disable_inline_rotator=1 \
+    sdm.debug.disable_inline_rotator_secure=1
 
+PRODUCT_VENDOR_PROPERTIES += \
+    ro.hardware.egl=adreno \
+    ro.hardware.vulkan=adreno \
+    ro.opengles.version=196610
+
+# fastbootd
 PRODUCT_PACKAGES += \
     fastbootd
+
+PRODUCT_SYSTEM_PROPERTIES += \
+    ro.fastbootd.available=true
 
 # Health
 PRODUCT_PACKAGES += \
@@ -146,34 +257,34 @@ PRODUCT_PACKAGES += \
 # HIDL
 PRODUCT_PACKAGES += \
     android.hidl.allocator@1.0.vendor \
-    android.hidl.base@1.0 \
-    android.hidl.base@1.0.vendor \
-    android.hidl.memory@1.0.vendor \
     libhidlmemory.vendor \
     libhidltransport \
     libhidltransport.vendor \
     libhwbinder \
     libhwbinder.vendor
 
-# HotwordEnrollement app permissions
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/permissions/privapp-permissions-hotword.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/permissions/privapp-permissions-hotword.xml
-
 # IFAA manager
 PRODUCT_PACKAGES += \
     IFAAService
 
+# IMS
+PRODUCT_PRODUCT_PROPERTIES += \
+    ro.telephony.block_binder_thread_on_incoming_calls=false
+
+PRODUCT_SYSTEM_PROPERTIES += \
+    persist.vendor.ims.disableUserAgent=0
+
 # Init
 PRODUCT_PACKAGES += \
     fstab.qcom \
+    init.qcom.sh \
     init.qcom.early_boot.sh \
     init.qcom.post_boot.sh \
-    init.qcom.rc \
+    init.qcom.sensors.sh
+
+PRODUCT_PACKAGES += \
     init.qcom.power.rc \
-    init.qcom.sensors.sh \
-    init.qcom.sh \
-    init.qcom.usb.rc \
-    init.qcom.usb.sh \
+    init.qcom.rc \
     init.recovery.qcom.rc \
     ueventd.qcom.rc \
     init.target.rc
@@ -183,12 +294,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/idc/uinput-fpc.idc:system/usr/idc/uinput-fpc.idc \
     $(LOCAL_PATH)/configs/idc/uinput-goodix.idc:system/usr/idc/uinput-goodix.idc
 
-# IPA
-PRODUCT_PACKAGES += \
-    ipacm \
-    IPACM_cfg.xml
-
-# Keylayout
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
     $(LOCAL_PATH)/configs/keylayout/uinput-fpc.kl:system/usr/keylayout/uinput-fpc.kl \
@@ -203,18 +308,29 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.light-service.xiaomi
 
-# Lineage Health
-PRODUCT_PACKAGES += \
-    vendor.lineage.health-service.default
-
-# LiveDisplay
-PRODUCT_PACKAGES += \
-    vendor.lineage.livedisplay@2.0-service-sdm \
-    vendor.lineage.livedisplay@2.0-service.xiaomi_sdm845
+# Listen
+PRODUCT_VENDOR_PROPERTIES += \
+    ro.audio.soundtrigger=sva \
+    ro.audio.soundtrigger.lowpower=true \
+    ro.vendor.audio.soundtrigger=sva \
+    ro.vendor.audio.soundtrigger.lowpower=true \
+    ro.vendor.audio.soundtrigger.20.key.level=40 \
+    ro.vendor.audio.soundtrigger.20.user.level=60 \
+    ro.vendor.audio.soundtrigger.20.key.adsp.level=40 \
+    ro.vendor.audio.soundtrigger.20.user.adsp.level=40 \
+    ro.vendor.audio.soundtrigger.gmm.level=50 \
+    ro.vendor.audio.soundtrigger.gmm.user.level=10 \
+    ro.vendor.audio.soundtrigger.cnn.level=27 \
+    ro.vendor.audio.soundtrigger.vop.level=10 \
+    ro.vendor.audio.soundtrigger.gmm.adsp.level=50 \
+    ro.vendor.audio.soundtrigger.gmm.user.adsp.level=10 \
+    ro.vendor.audio.soundtrigger.cnn.adsp.level=27 \
+    ro.vendor.audio.soundtrigger.vop.adsp.level=10 \
+    ro.vendor.audio.soundtrigger.training.level=60 \
+    ro.vendor.audio.soundtrigger.hist.duration=1500
 
 # Media
 PRODUCT_PACKAGES += \
-    libavservices_minijail \
     libc2dcolorconvert \
     libOmxAacEnc \
     libOmxAmrEnc \
@@ -240,6 +356,11 @@ PRODUCT_COPY_FILES += \
     frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_video.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_video_le.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_video_le.xml
 
+PRODUCT_SYSTEM_PROPERTIES += \
+    debug.stagefright.omx_default_rank.sw-audio=1 \
+    debug.stagefright.omx_default_rank=0 \
+    media.settings.xml=/vendor/etc/media_profiles_vendor.xml
+
 # Mlipay
 PRODUCT_PACKAGES += \
     vendor.xiaomi.hardware.mlipay@1.1.vendor:64 \
@@ -249,21 +370,21 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/public.libraries.txt:$(TARGET_COPY_OUT_VENDOR)/etc/public.libraries.txt
 
-# Net
-PRODUCT_PACKAGES += \
-    android.system.net.netd@1.1.vendor
+# Netflix custom property
+PRODUCT_VENDOR_PROPERTIES += \
+    ro.netflix.bsp_rev=Q845-14477-1
+
+# Network manager
+PRODUCT_VENDOR_PROPERTIES += \
+    persist.vendor.data.iwlan.enable=true \
+    ro.telephony.iwlan_operation_mode=legacy
 
 # Neural Network
 PRODUCT_PACKAGES += \
     android.hardware.neuralnetworks@1.2.vendor
 
 # NFC
-PRODUCT_PACKAGES += \
-    android.hardware.nfc@1.2-service \
-    com.android.nfc_extras \
-    libchrome.vendor \
-    NfcNci \
-    Tag
+TARGET_USES_ST_NFC := true
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/nfc/libnfc-nci.conf:$(TARGET_COPY_OUT_PRODUCT)/etc/libnfc-nci.conf \
@@ -273,14 +394,11 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.audio.low_latency.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.audio.low_latency.xml \
     frameworks/native/data/etc/android.hardware.audio.pro.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.audio.pro.xml \
-    frameworks/native/data/etc/android.hardware.bluetooth.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.bluetooth.xml \
-    frameworks/native/data/etc/android.hardware.bluetooth_le.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.bluetooth_le.xml \
     frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.flash-autofocus.xml \
     frameworks/native/data/etc/android.hardware.camera.front.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.front.xml \
     frameworks/native/data/etc/android.hardware.camera.full.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.full.xml \
     frameworks/native/data/etc/android.hardware.camera.raw.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.raw.xml \
     frameworks/native/data/etc/android.hardware.fingerprint.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.fingerprint.xml \
-    frameworks/native/data/etc/android.hardware.location.gps.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.location.gps.xml \
     frameworks/native/data/etc/android.hardware.opengles.aep.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.opengles.aep.xml \
     frameworks/native/data/etc/android.hardware.sensor.accelerometer.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.accelerometer.xml \
     frameworks/native/data/etc/android.hardware.sensor.compass.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.compass.xml \
@@ -289,12 +407,6 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.sensor.proximity.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.proximity.xml \
     frameworks/native/data/etc/android.hardware.sensor.stepcounter.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.stepcounter.xml \
     frameworks/native/data/etc/android.hardware.sensor.stepdetector.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.stepdetector.xml \
-    frameworks/native/data/etc/android.hardware.telephony.cdma.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.telephony.cdma.xml \
-    frameworks/native/data/etc/android.hardware.telephony.gsm.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.telephony.gsm.xml \
-    frameworks/native/data/etc/android.hardware.telephony.ims.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.telephony.ims.xml \
-    frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
-    frameworks/native/data/etc/android.hardware.usb.accessory.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.usb.accessory.xml \
-    frameworks/native/data/etc/android.hardware.usb.host.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.usb.host.xml \
     frameworks/native/data/etc/android.hardware.vulkan.compute-0.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vulkan.compute-0.xml \
     frameworks/native/data/etc/android.hardware.vulkan.level-0.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vulkan.level-0.xml \
     frameworks/native/data/etc/android.hardware.vulkan.version-1_1.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vulkan.version-1_1.xml \
@@ -304,28 +416,21 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.software.ipsec_tunnels.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.ipsec_tunnels.xml \
     frameworks/native/data/etc/android.software.midi.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.midi.xml \
     frameworks/native/data/etc/android.software.opengles.deqp.level-2020-03-01.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.opengles.deqp.level.xml \
-    frameworks/native/data/etc/android.software.sip.voip.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.sip.voip.xml \
     frameworks/native/data/etc/android.software.vulkan.deqp.level-2020-03-01.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.vulkan.deqp.level.xml \
-    frameworks/native/data/etc/android.hardware.nfc.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.xml \
-    frameworks/native/data/etc/android.hardware.nfc.hce.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.hce.xml \
-    frameworks/native/data/etc/android.hardware.nfc.hcef.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.hcef.xml \
     frameworks/native/data/etc/android.hardware.sensor.barometer.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.barometer.xml \
     frameworks/native/data/etc/android.hardware.sensor.hifi_sensors.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.hifi_sensors.xml \
-    frameworks/native/data/etc/com.android.nfc_extras.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/com.android.nfc_extras.xml \
     frameworks/native/data/etc/com.nxp.mifare.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/com.nxp.mifare.xml
 
-# PocketMode
-PRODUCT_PACKAGES += \
-    XiaomiPocketMode
+# Platform
+TARGET_BOARD_PLATFORM := sdm845
 
 # Power
 PRODUCT_PACKAGES += \
-    android.hardware.power-service.lineage-libperfmgr \
-    android.hardware.power@1.2.vendor \
-    libqti-perfd-client
+    android.hardware.power@1.2.vendor
 
+# Powerhint
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/powerhint.json:$(TARGET_COPY_OUT_VENDOR)/etc/powerhint.json
+    $(LOCAL_PATH)/configs/powerhint.xml:$(TARGET_COPY_OUT_VENDOR)/etc/powerhint.xml
 
 # Protobuf
 PRODUCT_PACKAGES += \
@@ -335,91 +440,74 @@ PRODUCT_PACKAGES += \
 # Properties
 PRODUCT_COMPATIBLE_PROPERTY_OVERRIDE := true
 
-# QTI
-PRODUCT_PACKAGES += \
-    libqti_vndfwk_detect.vendor
+# QC common
+TARGET_COMMON_QTI_COMPONENTS := \
+    alarm \
+    av \
+    bt \
+    display \
+    gps \
+    nfc \
+    perf \
+    telephony \
+    usb \
+    vibrator \
+    wfd
 
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/permissions/qti_whitelist.xml:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/sysconfig/qti_whitelist.xml \
-    $(LOCAL_PATH)/configs/permissions/system_ext-privapp-permissions-qti.xml:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/permissions/privapp-permissions-qti.xml
-
-# Radio
-PRODUCT_PACKAGES += \
-    android.hardware.secure_element@1.0.vendor \
-    android.hardware.radio@1.4.vendor \
-    android.hardware.radio.config@1.2.vendor \
-    android.hardware.radio.deprecated@1.0.vendor \
-    libjson \
-    librmnetctl \
-    libsqlite.vendor:64
+# RCS
+PRODUCT_SYSTEM_PROPERTIES += \
+    persist.rcs.supported=1
 
 # Recovery
 PRODUCT_PACKAGES += \
     librecovery_updater_xiaomi
 
+# RIL
+PRODUCT_SYSTEM_PROPERTIES += \
+    persist.vendor.radio.flexmap_type=none \
+    persist.vendor.radio.force_on_dc=true \
+    persist.vendor.radio.redir_party_num=1 \
+    persist.vendor.radio.report_codec=1 \
+    ro.com.android.dataroaming=true
+
 # Screen density
 PRODUCT_AAPT_CONFIG := normal
 PRODUCT_AAPT_PREF_CONFIG := xxhdpi
 
-# Seccomp policy
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/seccomp/mediacodec-seccomp.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/mediacodec.policy
-
-# Secure element
-PRODUCT_PACKAGES += \
-    SecureElement
-
 # Sensors
 PRODUCT_PACKAGES += \
-    android.frameworks.sensorservice@1.0.vendor \
     android.hardware.sensors@1.0-impl:64 \
     android.hardware.sensors@1.0-service \
     libsensorndkbridge
 
+# Setup dalvik vm configs
+$(call inherit-product, frameworks/native/build/phone-xhdpi-6144-dalvik-heap.mk)
+
+# Shipping API Level
+PRODUCT_SHIPPING_API_LEVEL := 27
+
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH) \
-    hardware/google/interfaces \
-    hardware/google/pixel \
-    hardware/lineage/interfaces/power-libperfmgr \
-    hardware/qcom-caf/common/libqti-perfd-client \
-    hardware/xiaomi \
-    vendor/qcom/opensource/usb/etc
-
-# Telephony
-PRODUCT_PACKAGES += \
-    ims-ext-common \
-    ims_ext_common.xml \
-    qti-telephony-hidl-wrapper \
-    qti_telephony_hidl_wrapper.xml \
-    qti-telephony-utils \
-    qti_telephony_utils.xml \
-    telephony-ext
-
-PRODUCT_BOOT_JARS += \
-    telephony-ext
+    hardware/xiaomi
 
 # Treble
 PRODUCT_USE_VNDK_OVERRIDE := true
 
 # USB
-PRODUCT_PACKAGES += \
-    android.hardware.usb@1.3-service.dual_role_usb
-
-# Vibrator
-PRODUCT_PACKAGES += \
-    vendor.qti.hardware.vibrator.service
+PRODUCT_VENDOR_PROPERTIES += \
+    vendor.usb.product_string=Xiaomi Mi 8
 
 # VNDK
 PRODUCT_COPY_FILES += \
-    prebuilts/vndk/v33/arm64/arch-arm64-armv8-a/shared/vndk-sp/libutils.so:$(TARGET_COPY_OUT_VENDOR)/lib64/libutils-v33.so
+    prebuilts/vndk/v33/arm64/arch-arm64-armv8-a/shared/vndk-sp/libutils.so:$(TARGET_COPY_OUT_VENDOR)/lib64/libutils-v33.so \
+    prebuilts/vndk/v29/arm/arch-arm-armv7-a-neon/shared/vndk-core/libpiex.so:$(TARGET_COPY_OUT_VENDOR)/lib/libpiex-v29.so
 
 # WiFi
 PRODUCT_PACKAGES += \
     android.hardware.wifi-service \
     hostapd \
     libwifi-hal-qcom \
-    libwpa_client \
     wpa_supplicant \
     wpa_supplicant.conf
 
@@ -434,13 +522,8 @@ PRODUCT_COPY_FILES += \
 # WiFi Display
 PRODUCT_PACKAGES += \
     android.media.audio.common.types-V2-cpp \
-    libnl \
     libpng.vendor \
-    libprocessgroup.vendor \
-    libwfdaac_vendor
-
-PRODUCT_BOOT_JARS += \
-    WfdCommon
+    libprocessgroup.vendor
 
 # Inherit the proprietary files
 $(call inherit-product, vendor/xiaomi/dipper/dipper-vendor.mk)

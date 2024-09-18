@@ -1,8 +1,10 @@
 #
-# Copyright (C) 2018-2024 The LineageOS Project
+# Copyright (C) 2024 Paranoid Android
 #
 # SPDX-License-Identifier: Apache-2.0
 #
+
+BOARD_VENDOR := xiaomi
 
 DEVICE_PATH := device/xiaomi/dipper
 
@@ -27,110 +29,85 @@ TARGET_PROVIDES_AUDIO_EXTNS := true
 # Assert
 TARGET_OTA_ASSERT_DEVICE := dipper
 
-# Bootloader / Platform
+# Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := sdm845
 TARGET_NO_BOOTLOADER := true
-TARGET_BOARD_PLATFORM := sdm845
-BOARD_VENDOR := xiaomi
 
 # Build
 BUILD_BROKEN_DUP_RULES := true
 BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
 
-# Declare boot header
-BOARD_BOOT_HEADER_VERSION := 1
-BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
-
 # Display
 TARGET_SCREEN_DENSITY := 440
 
-# Filesystem
-BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext4
-BOARD_SYSTEM_EXTIMAGE_FILE_SYSTEM_TYPE := ext4
-BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
-
-# Graphics
-TARGET_USES_GRALLOC1 := true
-TARGET_USES_HWC2 := true
-TARGET_USES_ION := true
-MAX_EGL_CACHE_KEY_SIZE := 12*1024
-MAX_EGL_CACHE_SIZE := 2048*1024
-
 # HIDL
-DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := \
-    hardware/qcom-caf/common/vendor_framework_compatibility_matrix.xml \
-    hardware/qcom-caf/common/vendor_framework_compatibility_matrix_legacy.xml \
-    hardware/xiaomi/vintf/xiaomi_framework_compatibility_matrix.xml \
-    vendor/lineage/config/device_framework_matrix.xml
-DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/configs/vintf/manifest.xml
-DEVICE_MATRIX_FILE := hardware/qcom-caf/common/compatibility_matrix.xml
-TARGET_FS_CONFIG_GEN := $(DEVICE_PATH)/configs/config.fs
+DEVICE_MANIFEST_FILE := \
+     $(DEVICE_PATH)/configs/vintf/manifest.xml
 
 # Kernel
-BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom ehci-hcd.park=3
-BOARD_KERNEL_CMDLINE += lpm_levels.sleep_disabled=1 service_locator.enable=1
-BOARD_KERNEL_CMDLINE += swiotlb=2048 androidboot.configfs=true
-BOARD_KERNEL_CMDLINE += androidboot.console=ttyMSM0 msm_rtb.filter=0x237
-BOARD_KERNEL_CMDLINE += console=ttyMSM0,115200n8 earlycon=msm_geni_serial,0xA84000
-BOARD_KERNEL_CMDLINE += loop.max_part=7 androidboot.usbcontroller=a600000.dwc3
-BOARD_KERNEL_CMDLINE += androidboot.boot_devices=soc/1d84000.ufshc
-BOARD_KERNEL_BASE := 0x00000000
-BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
 BOARD_KERNEL_PAGESIZE := 4096
-TARGET_KERNEL_ARCH := arm64
-TARGET_KERNEL_CONFIG := vendor/xiaomi/mi845_defconfig vendor/xiaomi/dipper.config
-TARGET_KERNEL_SOURCE := kernel/xiaomi/sdm845
+BOARD_KERNEL_BASE := 0x00000000
+
+BOARD_BOOT_HEADER_VERSION := 1
+BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
+
+BOARD_KERNEL_CMDLINE := \
+    console=ttyMSM0,115200n8 \
+    earlycon=msm_geni_serial,0xA84000 \
+    androidboot.hardware=qcom \
+    androidboot.console=ttyMSM0 \
+    msm_rtb.filter=0x237 \
+    ehci-hcd.park=3 \
+    lpm_levels.sleep_disabled=1 \
+    service_locator.enable=1 \
+    swiotlb=2048 \
+    androidboot.configfs=true \
+    loop.max_part=7 \
+    androidboot.usbcontroller=a600000.dwc3
+
+BOARD_KERNEL_CMDLINE += androidboot.boot_devices=soc/1d84000.ufshc
+
+KERNEL_CUSTOM_LLVM := true
+
+TARGET_KERNEL_APPEND_DTB := true
+TARGET_KERNEL_CONFIG := vendor/xiaomi/dipper_defconfig
+TARGET_KERNEL_VERSION := 4.9
 
 # LMKD
 TARGET_LMKD_STATS_LOG := true
 
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 262144 # (BOARD_KERNEL_PAGESIZE * 64)
-BOARD_RECOVERYIMAGE_PARTITION_SIZE := 67108864
-BOARD_BOOTIMAGE_PARTITION_SIZE := 67092480
+BOARD_BOOTIMAGE_PARTITION_SIZE := 67108864
 BOARD_CACHEIMAGE_PARTITION_SIZE := 268435456
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 67108864
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 3221225472
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 57453555712
 BOARD_SYSTEM_EXTIMAGE_PARTITION_SIZE := 872415232
 BOARD_VENDORIMAGE_PARTITION_SIZE := 1073741824
-TARGET_COPY_OUT_SYSTEM_EXT := system_ext
-TARGET_COPY_OUT_VENDOR := vendor
+
+BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext4
+BOARD_SYSTEMIMAGE_FILE_SYSTEM_TYPE := ext4
+BOARD_SYSTEM_EXTIMAGE_FILE_SYSTEM_TYPE := ext4
+BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
 
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 TARGET_USERIMAGES_SPARSE_EXT_DISABLED := false
 
-# Power
-TARGET_POWER_LIBPERFMGR_MODE_EXTENSION_LIB := //$(DEVICE_PATH):libperfmgr-ext-xiaomi
-
-# Properties
-TARGET_ODM_PROP += $(DEVICE_PATH)/configs/properties/odm.prop
-TARGET_PRODUCT_PROP += $(DEVICE_PATH)/configs/properties/product.prop
-TARGET_SYSTEM_EXT_PROP += $(DEVICE_PATH)/configs/properties/system_ext.prop
-TARGET_SYSTEM_PROP += $(DEVICE_PATH)/configs/properties/system.prop
-TARGET_VENDOR_PROP += $(DEVICE_PATH)/configs/properties/vendor.prop
-
-# QCOM
-BOARD_USES_QCOM_HARDWARE := true
-TARGET_FWK_SUPPORTS_FULL_VALUEADDS := true
+TARGET_COPY_OUT_SYSTEM_EXT := system_ext
+TARGET_COPY_OUT_VENDOR := vendor
 
 # Recovery
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/init/fstab.qcom
-TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
 
 # Releasetools
 TARGET_RECOVERY_UPDATER_LIBS := librecovery_updater_xiaomi
 TARGET_RELEASETOOLS_EXTENSIONS := $(DEVICE_PATH)
 
-# RIL
-ENABLE_VENDOR_RIL_SERVICE := true
-
 # Security patch level
 VENDOR_SECURITY_PATCH := 2020-12-01
 
 # SELinux
-include device/lineage/sepolicy/libperfmgr/sepolicy.mk
-include device/qcom/sepolicy_vndr/SEPolicy.mk
 BOARD_VENDOR_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
 PRODUCT_PRIVATE_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/private
 PRODUCT_PUBLIC_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/public

@@ -1,4 +1,4 @@
-Copyright (C) 2018 The LineageOS Project
+Copyright (C) 2024 Paranoid Android
 
 Device configuration for Xiaomi Mi 8
 =========================================
@@ -20,7 +20,3 @@ Storage | 64/128/256 GB
 Battery | Non-removable Li-Ion 3400 mAh battery
 Display | 1080 x 2248 pixels, 18:9 ratio, 6.21 inches, Super AMOLED (~402 ppi density)
 Camera  | Dual 12 MP, 4-axis OIS, 2x optical zoom, dual PDAF, dual-LED (dual tone) flash
-
-## Device picture
-
-![Xiaomi Mi 8](https://xiaomi-mi.com/uploads/CatalogueImage/01_b_16982_1527780977.jpg "Xiaomi Mi 8 in black")
