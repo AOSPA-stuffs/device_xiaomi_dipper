@@ -27,8 +27,7 @@ PRODUCT_PACKAGES += \
     libqcomvisualizer \
     libqcomvoiceprocessing \
     libtinycompress \
-    libvolumelistener \
-    tinymix
+    libvolumelistener
 
 PRODUCT_SYSTEM_PROPERTIES += \
     audio.deep_buffer.media=true \
