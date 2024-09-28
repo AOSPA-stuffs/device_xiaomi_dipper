@@ -307,6 +307,12 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.light-service.xiaomi
 
+# Lineage health
+PRODUCT_PACKAGES += \
+    vendor.lineage.health-service.default
+
+TARGET_HEALTH_CHARGING_CONTROL_SUPPORTS_BYPASS := false
+
 # Listen
 PRODUCT_VENDOR_PROPERTIES += \
     ro.audio.soundtrigger=sva \
