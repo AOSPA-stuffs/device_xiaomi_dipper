@@ -29,9 +29,6 @@ function blob_fixup() {
         vendor/bin/pm-service)
             grep -q libutils-v33.so "${2}" || "${PATCHELF}" --add-needed "libutils-v33.so" "${2}"
             ;;
-        vendor/lib/camera/components/com.qti.node.watermark.so)
-            grep -q "libpiex-v29.so" "${2}" || ${PATCHELF} --add-needed "libpiex-v29.so" "${2}"
-            ;;
     esac
 }
 

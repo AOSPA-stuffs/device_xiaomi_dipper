@@ -147,6 +147,9 @@ PRODUCT_PACKAGES += \
     libdng_sdk.vendor \
     vendor.qti.hardware.camera.device@1.0.vendor
 
+PRODUCT_PACKAGES += \
+    libpiex_shim
+
 PRODUCT_SYSTEM_PROPERTIES += \
     persist.camera.sat.fallback.dist=45 \
     persist.camera.sat.fallback.dist.d=5 \
@@ -501,8 +504,7 @@ PRODUCT_VENDOR_PROPERTIES += \
 
 # VNDK
 PRODUCT_COPY_FILES += \
-    prebuilts/vndk/v33/arm64/arch-arm64-armv8-a/shared/vndk-sp/libutils.so:$(TARGET_COPY_OUT_VENDOR)/lib64/libutils-v33.so \
-    prebuilts/vndk/v29/arm/arch-arm-armv7-a-neon/shared/vndk-core/libpiex.so:$(TARGET_COPY_OUT_VENDOR)/lib/libpiex-v29.so
+    prebuilts/vndk/v33/arm64/arch-arm64-armv8-a/shared/vndk-sp/libutils.so:$(TARGET_COPY_OUT_VENDOR)/lib64/libutils-v33.so
 
 # WiFi
 PRODUCT_PACKAGES += \
