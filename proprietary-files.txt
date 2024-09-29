@@ -646,12 +646,6 @@ vendor/lib/liblistensoundmodel2.so
 vendor/lib/libmulawdec.so
 vendor/lib/libsmwrapper.so
 
-# Mlipay
-vendor/bin/mlipayd@1.1
-vendor/etc/init/vendor.xiaomi.hardware.mlipay@1.1-service.rc
-vendor/lib64/libmlipay.so
-vendor/lib64/libmlipay@1.1.so
-
 # NFC firmware - from dipper's MIUI 12.5.1.0.QEACNXM
 vendor/firmware/libpn553_rec.so|76674f9d0167258a71c38cd2f9bc35c5e7e103f0
 vendor/lib/libpn553_fw.so|d032117e6645395327a5acd236bfd1bec56569c0
