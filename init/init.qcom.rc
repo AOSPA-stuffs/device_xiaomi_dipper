@@ -650,12 +650,6 @@ service vendor.contexthub-hal-1-0 /vendor/bin/hw/android.hardware.contexthub@1.0
     group system
     disabled
 
-service vendor.power /vendor/bin/hw/android.hardware.power-service-qti
-    override
-    class hal
-    user system
-    group system input
-
 on property:vold.decrypt=trigger_restart_framework
     restart vendor.audio-hal
     start vendor-sensor-sh
@@ -682,9 +676,6 @@ service vendor.per_proxy /vendor/bin/pm-proxy
     user system
     group system
     disabled
-
-on property:init.svc.vendor.per_mgr=running
-    start vendor.per_proxy
 
 on property:sys.shutdown.requested=*
     stop vendor.per_proxy
